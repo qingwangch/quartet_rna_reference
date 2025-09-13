@@ -34,10 +34,27 @@ Briefly introduce
 ## Directory Structure
 ```text
 quartet_rna_reference/
-├── data_analysis/        # Scripts, notebooks, and workflow definitions
-│   ├── 01_preprocessing/     # QC, trimming, mapping
-│   ├── 02_quantification/    # Isoform/gene quant
-│   └── 03_statistics/        # Ratio calculation, plots
-├── figures/              # Final figures for the manuscript
-├── upstream/             # External resources (e.g. annotation, helper scripts)
-└── README.md
+├── data_analysis/                 # Main data analysis
+│   ├── 01_longvsshort/            # long- vs short-read comparison
+│   ├── 02_reference_description/  # Quartet reference construction
+│   └── 03_performance_eva/        # Accuracy, reproducibility, and other metrics
+│
+├── figures/                       # Publication-ready figures
+│   ├── fig2_longvsshort/          # Fig. 2 — long- vs short-read comparison
+│   ├── fig3_ratio/                # Fig. 3 — ratio-based normalization results
+│   ├── fig4_refData/              # Fig. 4 — reference dataset characteristics
+│   └── fig5_application/          # Fig. 5 — downstream application example
+│
+├── ref_construction/              # Scripts for building reference transcriptomes
+│   ├── LO/                        # Long-only protocol–specific reference
+│   ├── SO/                        # Short-only protocol–specific reference
+│   └── src/                       # Helper code, configs, and logs
+│
+├── upstream/                      # Main upstream analysis pipeline (scripts, and workflows)
+│   ├── 01_preprocessing/          # Raw FASTQ QC, adapter trimming, mapping
+│   ├── 02_quantification/         # Isoform/AS quantification tool wrappers
+│   ├── 03_statistics/             # Shared statistical and plotting functions
+│   └── 03_others/                 # Miscellaneous utilities
+│
+└── README.md                      # Project overview (this file)
+```
