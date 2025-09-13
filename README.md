@@ -1,2 +1,3 @@
-# quartet_rna_reference
-For manuscript "Establishing ratio-based Quartet reference datasets for benchmarking isoform detection using long-read RNA sequencing".
+# Quartet_ratio_Ground_truth
+
+For manuscript "A ratio-based framework using Quartet reference materials for integrating long- and short-read RNA-seq".
