@@ -1,4 +1,4 @@
-#' Fi3_comprison_LR84_SR60_junctions_per_read
+#' fig2_comprison_LR84_SR60_junctions_per_read
 #' Qingwang Chen
 #' 2025-07-10
 #' 
