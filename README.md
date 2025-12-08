@@ -69,7 +69,7 @@ quartet_rna_reference/
 │   ├── 01_preprocessing/          # QC, trimming, mapping
 │   ├── 02_quantification/         # Isoform/AS quantification wrappers
 │   ├── 03_statistics/             # Statistical utilities
-│   └── 03_others/                 # Misc helper scripts
+│   └── 04_others/                 # Misc helper scripts
 │
 └── README.md                      # This file
 ```
@@ -103,22 +103,21 @@ cd quartet_rna_reference
 
 3. **Ratio-based quantification**
 
-   - Computes robust D5\:D6\:F7\:M8 ratios
-   - Removes batch/platform artifacts
+   - Computes robust D5/F7/M8\:D6 ratios
+   - Removes batch/platform effects
    - Generates platform-agnostic expression values
 
 4. **Reference construction**
 
-   - Selects high-confidence isoforms
-   - Integrates long-read and short-read evidence
-   - Produces reference tables for benchmarking
+   - Selects high-confidence isoform datasets
+   - Integrates the common isoform quantifications 
+   - Produces reference datasets for benchmarking
 
 5. **Performance evaluation**
 
    - Accuracy
    - Reproducibility
    - Bias quantification
-   - Demonstration in biological applications
 
 ---
 
