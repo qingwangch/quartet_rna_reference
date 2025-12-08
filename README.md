@@ -1,60 +1,234 @@
-# Quartet_ratio_ground_truth
-> A ratio-based framework using Quartet reference materials for integrating long- and short-read RNA-seq
+# Quartet\_ratio\_ground\_truth
 
-[![DOI](https://zenodo.org/badge/DOI/TODO.svg)](https://doi.org/TODO) <!-- 如暂未生成 DOI 可先注释 -->
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+> **A ratio-based framework using Quartet reference materials for integrating long- and short-read RNA-seq**
+
+
 
 ---
 
 ## Table of Contents
-1. [Overview](#overview)
-2. [Directory Structure](#directory-structure)
-3. [Quick Start](#quick-start)
-4. [Analysis Workflow](#analysis-workflow)
-5. [Input Data](#input-data)
-6. [Environment & Dependencies](#environment--dependencies)
-7. [Results & Figures](#results--figures)
-8. [Reproducing the Study](#reproducing-the-study)
-9. [Troubleshooting](#troubleshooting)
-10. [Contributing](#contributing)
-11. [License](#license)
-12. [Citation](#citation)
-13. [Contact](#contact)
+
+- [Quartet\_ratio\_ground\_truth](#quartet_ratio_ground_truth)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Directory Structure](#directory-structure)
+  - [Quick Start](#quick-start)
+  - [Analysis Workflow](#analysis-workflow)
+  - [Input Data](#input-data)
+  - [Environment \& Dependencies](#environment--dependencies)
+    - [R environment (≥ 4.3)](#r-environment--43)
+    - [Python (≥ 3.9)](#python--39)
+    - [External tools](#external-tools)
+  - [Results \& Figures](#results--figures)
+  - [Reproducing the Study](#reproducing-the-study)
+  - [Troubleshooting](#troubleshooting)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Citation](#citation)
+  - [Contact](#contact)
 
 ---
 
 ## Overview
-Briefly introduce  
-* **Research goal** – e.g. benchmarking isoform quantification across sequencing platforms using the Quartet reference.  
-* **Key contribution** – ratio-based normalization, unified ground-truth set, reproducible pipeline.  
-* Link to the corresponding manuscript (bioRxiv/Journal, DOI).
+A manuscript link is available at: https://www.biorxiv.org/content/10.1101/2025.09.15.676287v1
+
+This repository provides the complete analysis workflow for:
+
+**A ratio-based, platform-independent framework for integrating long-read (lrRNA-seq) and short-read (srRNA-seq) RNA-seq at the isoform level, empowered by *****Quartet***** reference materials.**
+
+Key contributions:
+
+- **Unified isoform ground truth** derived from multi-center, multi-platform long-read sequencing.
+- **Ratio-based normalization** leveraging the same Quartet samples in each batch.
+- **A fully reproducible analytical pipeline**, from raw data → quantification → ratio-based quantification → reference construction → performance evaluation.
+
 
 ---
 
 ## Directory Structure
+
 ```text
 quartet_rna_reference/
-├── data_analysis/                 # Main data analysis
-│   ├── 01_longvsshort/            # long- vs short-read comparison
-│   ├── 02_reference_description/  # Quartet reference construction
-│   └── 03_performance_eva/        # Accuracy, reproducibility, and other metrics
+├── data_analysis/                 # Main downstream analyses
+│   ├── 01_longvsshort/            # Long- vs short-read comparisons
+│   ├── 02_reference_description/  # Quartet reference characterization
+│   └── 03_performance_eva/        # Accuracy, reproducibility, and bias metrics
 │
-├── figures/                       # Publication-ready figures
-│   ├── fig2_longvsshort/          # Fig. 2 — long- vs short-read comparison
-│   ├── fig3_ratio/                # Fig. 3 — ratio-based normalization results
+├── figures/                       # Manuscript figure scripts
+│   ├── fig2_longvsshort/          # Fig. 2 — platform comparison
+│   ├── fig3_ratio/                # Fig. 3 — ratio normalization
 │   ├── fig4_refData/              # Fig. 4 — reference dataset characteristics
-│   └── fig5_application/          # Fig. 5 — downstream application example
+│   └── fig5_application/          # Fig. 5 — downstream application
 │
-├── ref_construction/              # Scripts for building reference transcriptomes
-│   ├── LO/                        # Long-only protocol–specific reference
-│   ├── SO/                        # Short-only protocol–specific reference
-│   └── src/                       # Helper code, configs, and logs
+├── ref_construction/              # Building the isoform-level reference
+│   ├── LO/                        # Long-read-only reference construction
+│   ├── SO/                        # Short-read-only modules
+│   └── src/                       # Shared functions, configs, logs
 │
-├── upstream/                      # Main upstream analysis pipeline (scripts, and workflows)
-│   ├── 01_preprocessing/          # Raw FASTQ QC, adapter trimming, mapping
-│   ├── 02_quantification/         # Isoform/AS quantification tool wrappers
-│   ├── 03_statistics/             # Shared statistical and plotting functions
-│   └── 03_others/                 # Miscellaneous utilities
+├── upstream/                      # Upstream processing pipeline
+│   ├── 01_preprocessing/          # QC, trimming, mapping
+│   ├── 02_quantification/         # Isoform/AS quantification wrappers
+│   ├── 03_statistics/             # Statistical utilities
+│   └── 03_others/                 # Misc helper scripts
 │
-└── README.md                      # Project overview (this file)
+└── README.md                      # This file
 ```
+
+---
+
+## Quick Start
+
+Clone:
+
+```bash
+git clone https://github.com/qingwangch/quartet_rna_reference.git
+cd quartet_rna_reference
+```
+
+---
+
+## Analysis Workflow
+
+1. **Raw data preprocessing**
+
+   - Adapter trimming and QC
+   - Long-read alignment: `minimap2`
+   - Short-read alignment: `STAR`
+
+2. **Isoform quantification**
+
+   - Long-read mapping/quantification:  `StringTie2`, `Bambu`, `Oarfish`, `isoQuant`
+   - Short-read quantification: `StringTie2`, `RSEM`, `Salmon`, and `kallisto`
+
+
+3. **Ratio-based quantification**
+
+   - Computes robust D5\:D6\:F7\:M8 ratios
+   - Removes batch/platform artifacts
+   - Generates platform-agnostic expression values
+
+4. **Reference construction**
+
+   - Selects high-confidence isoforms
+   - Integrates long-read and short-read evidence
+   - Produces reference tables for benchmarking
+
+5. **Performance evaluation**
+
+   - Accuracy
+   - Reproducibility
+   - Bias quantification
+   - Demonstration in biological applications
+
+---
+
+## Input Data
+
+Raw sequencing data are **not included** in this repository.
+
+To run the full workflow, prepare:
+
+- Long-read RNA-seq FASTQ/BAM (PacBio, ONT)
+- Short-read RNA-seq FASTQ
+- Quartet metadata
+- GTF annotation (MANE / Ensembl / custom)
+- Optional: spike-ins (SIRV-Set4)
+
+---
+
+## Environment & Dependencies
+
+### R environment (≥ 4.3)
+
+Required packages include:
+
+- `dplyr`, `tidyr`, `ggplot2`, `data.table`
+- `SummarizedExperiment`, `BiocParallel`
+- `DRIMSeq`, `edgeR`
+
+### Python (≥ 3.9)
+
+- `pandas`, `numpy`, `scipy`, `matplotlib`
+
+### External tools
+
+- `minimap2`, `samtools`
+- `SQANTI3`, `StringTie3`, `StringTie2`, `Bambu`, `Oarfish`, `isoQuant`, `MPACT`, `miniQuant`
+- `STAR`, `Salmon`, `kallisto`
+
+Environment files (`conda.yaml`, `renv.lock`) will be provided later.
+
+---
+
+## Results & Figures
+
+All figure-generating scripts are in:
+
+```
+figures/
+```
+
+Running them will reproduce:
+
+- Long vs short-read comparison plots
+- Ratio normalization effects
+- Reference data characteristics
+- Downstream biological examples
+
+Large figure files are **not stored** to keep the repo lightweight.
+
+---
+
+## Reproducing the Study
+
+To reproduce all results:
+
+1. Acquire raw Quartet RNA-seq (long-read + short-read).
+2. Run `upstream/` for preprocessing and quantification.
+3. Build the reference using `ref_construction/`.
+4. Evaluate performance using `data_analysis/`.
+5. Generate figures via `figures/`.
+
+A full workflow diagram will be added.
+
+---
+
+## Troubleshooting
+
+| Issue                      | Likely Cause                | Recommended Fix                       |
+| -------------------------- | --------------------------- | ------------------------------------- |
+| Missing isoform IDs        | Annotation mismatch         | Use the provided MANE/Ensembl version |
+| Extreme ratio values       | Low expression              | Apply TPM/CPM filtering               |
+| Inconsistent LR–SR results | SQANTI category differences | Restrict to FSM + ISM isoforms        |
+
+---
+
+## Contributing
+
+Contributions are welcome.\
+Please open an Issue or submit a Pull Request.
+
+---
+
+## License
+
+This project is released under the **MIT License**.
+
+---
+
+## Citation
+
+If you use this repository, please cite:
+
+> Chen Q, et al. *A ratio-based framework using Quartet reference materials for integrating long- and short-read RNA-seq.* (Manuscript in revision)
+
+DOI will be provided once available.
+
+---
+
+## Contact
+
+Maintainer: **Qingwang Chen**\
+Email: [qingwangchen@fudan.edu.cn](mailto\:qingwangchen@fudan.edu.cn)\
+For issues and feature requests, please use GitHub Issues.
+
