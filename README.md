@@ -56,7 +56,7 @@ quartet_rna_reference/
 │
 ├── figures/                       # Manuscript figure scripts
 │   ├── fig2_longvsshort/          # Fig. 2 — platform comparison
-│   ├── fig3_ratio/                # Fig. 3 — ratio normalization
+│   ├── fig3_ratioQuant/           # Fig. 3 — ratio normalization
 │   ├── fig4_refData/              # Fig. 4 — reference dataset characteristics
 │   └── fig5_application/          # Fig. 5 — downstream application
 │
