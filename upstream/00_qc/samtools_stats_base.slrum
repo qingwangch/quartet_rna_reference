@@ -1,0 +1,55 @@
+#!/bin/bash
+#SBATCH --job-name=samtools_stats_vase       # Job name
+#SBATCH --ntasks=1                           # Run on a single CPU
+#SBATCH --cpus-per-task=4                    # Number of CPU cores
+#SBATCH --mem=16G                            # Memory allocation
+#SBATCH --time=04:00:00                      # Time limit hrs:min:sec
+#SBATCH --output=logs/samtools_stats_base_%j.log  # Standard output and error log
+#SBATCH --mail-user=chen.q@wehi.edu.au       # Your email address for notifications
+#SBATCH --mail-type=FAIL                     # Send email on job failure
+
+# Enable error detection and pipe failure detection
+set -eo pipefail
+
+# Load necessary modules
+module load samtools/1.20
+
+# Define output file for results
+stats_output="/vast/projects/quartet_rna_refdata/analysis/bam_bases_on/samtools_stats_results.txt"
+
+# Ensure the output file is initialized if not present
+if [ ! -f "$stats_output" ]; then
+    echo -e "Sample\tReads_Mapped\tBases_Mapped_CIGAR\tError_Rate\tAverage_Length" > "$stats_output"
+fi
+
+# Loop through BAM files passed as arguments
+for bam_file in "$@"; do
+    echo "Processing $bam_file..."
+
+    # Check if file exists
+    if [ ! -f "$bam_file" ]; then
+        echo "Error: File $bam_file does not exist. Skipping."
+        continue
+    fi
+
+    # Extract the sample name from the BAM file name
+    sample_name=$(basename "$bam_file" .minimap2.sorted.only_primary.bam)
+
+    # Run samtools stats and extract relevant information
+    mapped_reads=$(samtools stats "$bam_file" | awk '/^SN/ && /reads mapped:/ {if ($4 ~ /^[0-9]+$/) print $4}')
+    bases_mapped=$(samtools stats "$bam_file" | awk '/^SN/ && /bases mapped \(cigar\)/ {if ($5 ~ /^[0-9]+$/) print $5}')
+    error_rate=$(samtools stats "$bam_file" | awk '/^SN/ && /error rate/ {print $4}')
+    average_length=$(samtools stats "$bam_file" | awk '/^SN/ && /average length:/ {if ($4 ~ /^[0-9]+$/) print $4}')
+
+    # Check if the result is already in the output file
+    if grep -q "^${sample_name}" "$stats_output"; then
+        echo "Sample $sample_name already processed. Skipping."
+        continue
+    fi
+
+    # Append results to the output file
+    echo -e "${sample_name}\t${mapped_reads}\t${bases_mapped}\t${error_rate}\t${average_length}" >> "$stats_output"
+    echo "Sample $sample_name processed and added to results."
+done
+
+echo "All BAM files processed. Results saved to $stats_output."

@@ -66,10 +66,11 @@ quartet_rna_reference/
 │   └── src/                       # Shared functions, configs, logs
 │
 ├── upstream/                      # Upstream processing pipeline
-│   ├── 01_preprocessing/          # QC, trimming, mapping
-│   ├── 02_quantification/         # Isoform/AS quantification wrappers
-│   ├── 03_qc/                     # Quality control
-│   └── 04_others/                 # Misc helper scripts
+│   ├── 00_qc/                     # Initial quality control (FastQC, NanoPlot, etc.)
+│   ├── 01_preprocessing/          # Adapter trimming, read filtering, and format conversion
+│   ├── 02_mapping/                # Long- and short-read alignment to reference genome
+│   ├── 03_quantification/         # Isoform and alternative splicing quantification
+│   └── 04_others/                 # Auxiliary or miscellaneous helper scripts
 │
 └── README.md                      # This file
 ```
