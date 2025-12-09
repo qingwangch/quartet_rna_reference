@@ -39,7 +39,7 @@ This repository provides the complete analysis workflow for:
 Key contributions:
 
 - **Unified isoform ground truth** derived from multi-center, multi-platform long-read sequencing.
-- **Ratio-based normalization** leveraging the same Quartet samples in each batch.
+- **Ratio-based quantification** leveraging the same Quartet samples in each batch.
 - **A fully reproducible analytical pipeline**, from raw data → quantification → ratio-based quantification → reference construction → performance evaluation.
 
 
@@ -68,7 +68,7 @@ quartet_rna_reference/
 ├── upstream/                      # Upstream processing pipeline
 │   ├── 01_preprocessing/          # QC, trimming, mapping
 │   ├── 02_quantification/         # Isoform/AS quantification wrappers
-│   ├── 03_statistics/             # Statistical utilities
+│   ├── 03_qc/                     # Quality control
 │   └── 04_others/                 # Misc helper scripts
 │
 └── README.md                      # This file
