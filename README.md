@@ -222,13 +222,12 @@ If you use this repository, please cite:
 
 > Chen Q, et al. *A ratio-based framework using Quartet reference materials for integrating long- and short-read RNA-seq.* (Manuscript in revision)
 
-DOI will be provided once available.
-
+DOI: https://www.biorxiv.org/content/10.1101/2025.09.15.676287v1
 ---
 
 ## Contact
 
 Maintainer: **Qingwang Chen**\
-Email: [qingwangchen@fudan.edu.cn](mailto\:qingwangchen@fudan.edu.cn)\
+Email: [qwchen20@fudan.edu.cn](mailto\:qwchen20@fudan.edu.cn)\
 For issues and feature requests, please use GitHub Issues.
 
